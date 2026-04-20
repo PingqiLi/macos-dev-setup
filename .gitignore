@@ -1,0 +1,9 @@
+# 上游参考 clone（仅用于本地阅读，不进仓库）
+_reference-ooloth/
+
+# macOS
+.DS_Store
+
+# 本机覆盖
+.zshrc.local
+*.local
