@@ -4,6 +4,5 @@ _reference-ooloth/
 # macOS
 .DS_Store
 
-# 本机覆盖
+# 本机覆盖（不同步的 shell 本地配置）
 .zshrc.local
-*.local
