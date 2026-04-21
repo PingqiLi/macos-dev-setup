@@ -1,0 +1,36 @@
+# see: https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md
+# colours: black | red | green | yellow | blue | magenta | cyan | white | '#ff00ff' (any hex code)
+# modifiers: bold | default | reverse (useful for high-contrast) | underline
+
+git:
+  parseEmoji: true
+
+gui:
+  expandFocusedSidePanel: true
+  showBottomLine: false # for hiding the bottom information line (unless it has important information to tell you)
+  showCommandLog: false
+  showFileTree: false # for rendering changes files in a tree format
+  sidePanelWidth: 0.25 # number from 0 to 1 (default: 0.33333)
+  theme:
+    # I like this one with the dracula theme, but not with gruvbox
+    selectedLineBgColor:
+      - '#292D3E' # material ocean list hover bg color (see: https://github.com/material-theme/vsc-material-theme/blob/main/scripts/generator/settings/specific/ocean.ts)
+    # FIXME: see https://github.com/jesseduffield/lazygit/discussions/3239
+    selectedRangeBgColor:
+      - reverse
+
+keybinding:
+  universal:
+    copyToClipboard: 'y'
+    createRebaseOptionsMenu: 'M' # avoid accidental rebasing when pressing "m" to merge into current branch
+    scrollUpMain: '<c-u>' # main panel scroll up
+    scrollDownMain: '<c-d>' # main panel scroll down
+  branches:
+    mergeIntoCurrentBranch: 'm'
+    rebaseBranch: 'R' # avoid accidental rebasing
+    renameBranch: 'r'
+  commits:
+    amendToCommit: 'a'
+
+promptToReturnFromSubprocess: false
+quitOnTopLevelReturn: false # true means "esc" quits when there's nothing to cancel/close

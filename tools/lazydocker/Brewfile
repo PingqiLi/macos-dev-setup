@@ -1,0 +1,2 @@
+tap "jesseduffield/lazydocker"
+brew "jesseduffield/lazydocker/lazydocker"
