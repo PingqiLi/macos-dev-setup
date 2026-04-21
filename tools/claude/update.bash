@@ -1,16 +1,5 @@
 #!/usr/bin/env bash
 set -euo pipefail
-
-source "${DOTFILES}/features/update/utils.bash"
-source "${DOTFILES}/tools/claude/utils.bash" # source last to avoid env var overrides
-
-update_and_symlink \
-  "${TOOL_LOWER}" \
-  "${TOOL_UPPER}" \
-  "${TOOL_COMMAND}" \
-  "${TOOL_EMOJI}" \
-  "npm install --global ${TOOL_PACKAGE}@latest" \
-  "${TOOL_COMMAND} --version" \
-  "parse_version" \
-  "${DOTFILES}/tools/${TOOL_LOWER}/install.bash" \
-  "${DOTFILES}/tools/${TOOL_LOWER}/symlinks/link.bash"
+source "${DOTFILES}/tools/bash/utils.bash"
+info "🤖 Updating claude-code"
+npm update -g @anthropic-ai/claude-code
