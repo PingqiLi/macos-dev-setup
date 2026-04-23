@@ -1,4 +1,3 @@
 brew "svn" # required for some font cask installations
+cask "font-jetbrains-mono-nerd-font"
 cask "font-symbols-only-nerd-font"
-cask "font-ubuntu-mono"
-cask "font-ubuntu-mono-nerd-font"
