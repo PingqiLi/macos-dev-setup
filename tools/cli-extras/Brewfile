@@ -1,0 +1,7 @@
+brew "atuin"
+brew "direnv"
+brew "yq"
+brew "tree"
+brew "pnpm"
+brew "gnu-sed"
+brew "coreutils"
