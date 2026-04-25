@@ -1,0 +1,13 @@
+# Copy this file to ~/.zshrc.local on each machine.
+# It is sourced at the end of zsh startup. NOT tracked in git.
+#
+# Use it for API keys, machine-specific paths, and any export you don't
+# want committed.
+
+# --- AI provider keys ---
+# export OPENROUTER_API_KEY=""
+# export ANTHROPIC_API_KEY=""
+# export OPENAI_API_KEY=""
+
+# --- Machine-specific PATH additions ---
+# export PATH="${HOME}/some-local-bin:${PATH}"

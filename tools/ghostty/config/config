@@ -24,7 +24,7 @@ background = 181825
 cursor-invert-fg-bg = true
 
 # Typography
-font-family = UbuntuMono Nerd Font Mono
+font-family = JetBrainsMono Nerd Font
 font-size = 15.5
 adjust-cell-height = 35%
 

@@ -105,3 +105,11 @@ zt() {
   done
 }
 
+
+###################
+# LOCAL OVERRIDES #
+###################
+
+# Source machine-local overrides (API keys, machine-specific exports).
+# This file is gitignored. Copy zshrc.local.example to ~/.zshrc.local to start.
+[ -f "${HOME}/.zshrc.local" ] && source "${HOME}/.zshrc.local"
