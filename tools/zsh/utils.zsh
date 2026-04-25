@@ -3,8 +3,11 @@
 # In case this file is sourced before shell variables have been symlinked
 export DOTFILES="${HOME}/Projects/macos-dev-setup"
 
-# Include is_air, is_mini, is_work in this commonly-sourced file
-source "${DOTFILES}/tools/macos/shell.zsh"
+# Stub machine-detection helpers (we treat every machine the same — no work/personal split).
+# Kept for compatibility with any code that still calls them.
+is_air()  { false; }
+is_mini() { false; }
+is_work() { false; }
 
 ###########
 # GENERAL #
