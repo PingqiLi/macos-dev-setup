@@ -87,7 +87,7 @@ if [ -d "$DOTFILES" ]; then
 else
   printf "📂 Installing dotfiles"
   mkdir -p "$(dirname "$DOTFILES")"
-  git clone "https://github.com/REPLACE_WITH_YOUR_USERNAME/macos-dev-setup.git" "$DOTFILES"
+  git clone "https://github.com/PingqiLi/macos-dev-setup.git" "$DOTFILES"
 fi
 
 ####################

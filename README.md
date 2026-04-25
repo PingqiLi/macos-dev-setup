@@ -21,7 +21,7 @@
 ## 安装
 
 ```sh
-curl -s https://raw.githubusercontent.com/REPLACE_WITH_YOUR_USERNAME/macos-dev-setup/main/features/setup/setup.zsh | zsh
+curl -s https://raw.githubusercontent.com/PingqiLi/macos-dev-setup/main/features/setup/setup.zsh | zsh
 ```
 
 会做的事情（约 15 步，详见 `features/setup/setup.zsh`）：
