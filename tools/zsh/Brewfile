@@ -3,6 +3,7 @@ brew "bat" # replaces cat
 brew "fd" # replaces find
 brew "gnu-sed"
 brew "ripgrep" # for telescope
+brew "zoxide"
 brew "zsh"
 brew "zsh-autosuggestions"
 brew "zsh-syntax-highlighting"
