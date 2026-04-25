@@ -16,6 +16,7 @@ export TIME_STYLE=long-iso
 
 # See: https://github.com/eza-community/eza#command-line-options
 alias ls="eza --all --group-directories-first --classify" # top level dir + files
+alias ll="ls --long --no-user --header"                   # top level details (muscle memory)
 alias ld="ls --long --no-user --header"                   # top level details
 alias lt="ls --tree --git-ignore -I .git"                 # file tree (all levels)
 alias lt2="lt --level=2"                                  # file tree (2 levels only)
