@@ -2,4 +2,3 @@
 
 brew "fzf"
 brew "sesh"
-brew "zoxide"
