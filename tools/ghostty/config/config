@@ -30,7 +30,11 @@ adjust-cell-height = 35%
 
 # Window
 # macos-titlebar-style = hidden
-maximize = true
+# NOTE: `maximize = true` is bugged on macOS as of Ghostty 1.x
+# (see https://github.com/ghostty-org/ghostty/discussions/5881).
+# Workaround: set huge dimensions; Ghostty clamps to screen size.
+window-width = 300
+window-height = 100
 window-decoration = true
 window-padding-x = 8
 window-padding-y = 8
