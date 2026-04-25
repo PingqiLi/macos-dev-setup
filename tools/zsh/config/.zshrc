@@ -4,7 +4,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-export DOTFILES="${HOME}/Repos/ooloth/dotfiles"
+export DOTFILES="${HOME}/Projects/macos-dev-setup"
 
 source "${DOTFILES}/tools/zsh/utils.zsh" # have, is_work, info, etc
 source "${DOTFILES}/tools/zsh/config/core.zsh" # env, history, completions, aliases
