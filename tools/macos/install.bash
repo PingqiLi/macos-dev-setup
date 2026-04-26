@@ -34,7 +34,7 @@ configure_finder_settings() {
 
 configure_dock() {
     echo "📌 Configuring Dock..."
-    defaults write com.apple.dock autohide -bool true
+    defaults write com.apple.dock autohide -bool false
     defaults write com.apple.dock show-recents -bool false
     killall Dock 2>/dev/null || true
     echo "✅ Dock configured"
