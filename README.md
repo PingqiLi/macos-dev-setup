@@ -1,86 +1,159 @@
 # macos-dev-setup
 
-我的 macOS 开发环境 bootstrap 仓库。基于 [ooloth/dotfiles](https://github.com/ooloth/dotfiles) 精简改造而来，专注 Python / Node.js 全栈 + AI 编码工作流。
+我的 macOS 个人开发环境 bootstrap 仓库 —— 把一台**全新 Mac** 在 5–10 分钟内配置成可用的 Python / Node 全栈 + AI 编码工作环境。
 
-## 用途
+> Fork 改造自 [ooloth/dotfiles](https://github.com/ooloth/dotfiles)，去掉 60% 用不到的工具，加入 Claude Code / OpenCode / mempalace 等 AI 工具的安装与配置同步。
 
-在一台全新的 macOS 上，几分钟内配置好开发环境：终端、编辑器、Git、运行时、CLI 工具、容器、Claude Code / Codex / OpenCode 等 AI 工具，以及全局 macOS 系统设置。
+---
 
-## 前置条件
-
-1. 连接互联网
-2. 安装 Xcode Command Line Tools：
-   ```sh
-   xcode-select --install
-   ```
-3. （可选）更新 macOS：
-   ```sh
-   sudo softwareupdate --install --all --restart
-   ```
-
-## 安装
+## 一键 bootstrap（新机器）
 
 ```sh
+# 1. 装 Xcode CLT（如果还没有）
+xcode-select --install
+
+# 2. 跑 setup
 curl -s https://raw.githubusercontent.com/PingqiLi/macos-dev-setup/main/features/setup/setup.zsh | zsh
 ```
 
-会做的事情（约 15 步，详见 `features/setup/setup.zsh`）：
+setup.zsh 会询问确认后依次：装 Homebrew → 切到 brew zsh → 装 uv / Node / tmux → 跑每个 `tools/*/install.bash` → 创建符号链接 → 应用 macOS 系统设置 → 提示重启。
 
-1. 验证 macOS 环境，请求 sudo
-2. clone 本仓库到 `~/Projects/macos-dev-setup`
-3. 生成 SSH key + GitHub 认证
-4. 安装 Homebrew、zsh、uv、Node、tmux
-5. 跑 `tools/*/install.bash`（每个工具自带的 Brewfile + 后处理）
-6. 创建符号链接：`tools/*/config/*` → `~/.config/...`、`~/.claude/`、VSCode user dir 等
-7. 应用 macOS `defaults`（键盘加速、Dock 自动隐藏、截图位置等）
-8. 提示重启
+---
 
 ## 仓库结构
 
 ```
 features/
-├── setup/setup.zsh              # 入口 bootstrap
-├── install/zsh/                 # 阶段安装脚本
+├── setup/setup.zsh              # 一键入口
+├── install/zsh/                 # 顺序执行的安装阶段
 │   ├── ssh.zsh / github.zsh     # SSH key + GitHub 认证
-│   ├── homebrew.zsh / zsh.zsh   # Homebrew + 切到 Homebrew zsh
+│   ├── homebrew.zsh / zsh.zsh   # Homebrew + 切到 brew zsh
 │   ├── uv.zsh / node.zsh / npm.zsh / tmux.zsh
 │   ├── tools.zsh                # 跑所有 tools/*/install.bash
 │   ├── symlinks.zsh             # 跑所有 tools/*/symlinks/link.bash
-│   └── macos.zsh                # 跑 tools/macos/install.bash
-└── update/                      # 更新逻辑（占位）
+│   └── macos.zsh                # 应用 macOS defaults
 
-tools/
+tools/                           # 每个工具一个文件夹（自包含）
 ├── {tool}/
-│   ├── Brewfile                 # 该工具要装什么
-│   ├── config/                  # 配置文件（会 symlink 到 ~/.config/{tool} 等）
+│   ├── Brewfile                 # brew/cask/vscode 条目
+│   ├── config/                  # 配置文件（symlink 到 ~/.config 等）
 │   ├── install.bash             # brew bundle + 后处理
 │   ├── update.bash              # brew upgrade
 │   ├── uninstall.bash           # brew uninstall
-│   ├── symlinks/link.bash       # 创建该工具的符号链接
-│   └── utils.bash               # TOOL_CONFIG_DIR 等环境变量
+│   ├── symlinks/link.bash       # 创建该工具的 symlinks
+│   ├── shell.zsh                # 该工具的 env vars / aliases（被 tools.zsh 自动 source）
+│   └── utils.bash               # TOOL_CONFIG_DIR 等
 
 docs/
 ├── specs/                       # 设计文档
 └── plans/                       # 实施计划
 ```
 
-## 软件清单
+---
 
-完整清单见 `docs/specs/2026-04-20-macos-dev-setup-design.md` 第 5 节。约 46 项 + 25 个 VSCode 扩展。
+## 软件清单速览（约 50 项）
 
-**主要类别**：
-- 终端：Ghostty + zsh + Powerlevel10k + tmux + sesh
-- AI：Claude Code (npm)、Codex (cask)、OpenCode (brew) + oh-my-opencode 插件
-- 编辑器：VSCode + 25 个 Python/Node/AI 扩展
-- 运行时：mise、uv、fnm、pnpm
-- CLI：bat、eza、fd、ripgrep、fzf、zoxide、jq、yq、sd、btop、httpie、tree、direnv、atuin、gnu-sed、coreutils
-- Git：git、git-delta、gh、lazygit
-- 容器：OrbStack、lazydocker
-- GUI：Obsidian、Chrome、Edge、Raycast
+| 类别 | 工具 |
+|---|---|
+| **终端 & Shell** | Ghostty · zsh + Powerlevel10k · zsh-autosuggestions · zsh-syntax-highlighting · JetBrainsMono Nerd Font |
+| **AI 编码工具** | Claude Code (npm) · Codex (cask) · OpenCode + oh-my-opencode (插件) · mempalace (uv tool) |
+| **编辑器** | VSCode + 25 个精选扩展（Python/Node/AI/Remote/Catppuccin） |
+| **Git** | git · git-delta · gh · lazygit |
+| **Python 运行时** | uv（Python 版本 + 包 + global CLI 工具，三合一） |
+| **Node 运行时** | fnm（版本） · pnpm（包） |
+| **CLI 增强** | bat · eza · fd · ripgrep · fzf · zoxide · jq · yq · sd · btop · httpie · tree · direnv · atuin · gnu-sed · coreutils |
+| **多路复用** | tmux · sesh · gitmux |
+| **macOS 工具** | m-cli · mas · Raycast |
+| **容器** | OrbStack · lazydocker |
+| **GUI 应用** | Obsidian · Chrome · Edge |
 
-## API Key 管理
+详细分类与排除清单：`docs/specs/2026-04-20-macos-dev-setup-design.md`
 
-`~/.zshrc.local` 是机器本地覆盖，**不进 git**。bootstrap 后从 `tools/zsh/config/zshrc.local.example` 复制一份到 `~/.zshrc.local`，写入：
+---
+
+## 日常使用
+
+### Python 由 `uv` 管
+
+这台机器**不用 pyenv / pipx / poetry**，一切 Python 相关都走 `uv`：
+
+| 需求 | 命令 |
+|---|---|
+| 装一个 Python 版本 | `uv python install 3.12` |
+| 在项目里用某个版本 + 创建 venv | `uv venv --python 3.12` |
+| 装项目依赖 | `uv add requests` |
+| 跑命令（自动 venv） | `uv run python my_script.py` |
+| **装一个全局 CLI 工具**（重要） | `uv tool install <pkg>` |
+| 升级一个 global 工具 | `uv tool upgrade <pkg>` |
+| 卸载一个 global 工具 | `uv tool uninstall <pkg>` |
+| 一次性运行某工具（不安装） | `uvx <pkg> --help` |
+
+global tools 装到 `~/.local/share/uv/tools/<pkg>/`，binary 链接到 `~/.local/bin/`（已在 PATH）。当前已装：mempalace、claude-monitor、basedpyright 等。
+
+要在仓库里"声明"一个 global Python 工具，参考 `tools/mempalace/`：建文件夹 + 写 `install.bash` 调 `uv tool install`。
+
+### Node 由 `fnm` 管版本，`pnpm` 装包
+
+```sh
+fnm list-remote                # 看可用 node 版本
+fnm install --lts              # 装最新 LTS
+fnm default <version>          # 设全局默认
+pnpm add <package>             # 项目依赖
+pnpm install -g <pkg>          # 全局 npm CLI（如 claude-code 就是这样装的）
+```
+
+### 装一个新软件 / 更新
+
+```sh
+cd ~/Projects/macos-dev-setup
+
+# 装单个工具
+bash tools/<tool>/install.bash
+
+# 升级单个工具
+bash tools/<tool>/update.bash
+
+# 升级所有
+for u in tools/*/update.bash; do bash "$u"; done
+```
+
+### 加一个新工具到仓库
+
+最快路径：复制现有的最小工具作模板。
+
+```sh
+cp -r tools/orbstack tools/<新工具名>
+# 然后编辑：
+#   tools/<新工具名>/Brewfile     ← 改 cask/brew 名字
+#   tools/<新工具名>/install.bash ← 改 emoji 和 info 文案
+#   tools/<新工具名>/update.bash
+#   tools/<新工具名>/uninstall.bash
+```
+
+无需修改 `setup.zsh` 或别的地方 —— `features/install/zsh/tools.zsh` 会自动找到新文件夹。
+
+### 改一个工具的配置
+
+工具的配置在 `tools/<tool>/config/`，**不要直接改 `~/.config/<tool>/`**（那是 symlink 指向仓库）。
+
+```sh
+$EDITOR tools/ghostty/config/config   # 改完保存
+# 在 Ghostty 里按 Cmd+Shift+R 重载
+git commit -am "feat(ghostty): adjust font size"
+```
+
+---
+
+## API Key / 密钥管理
+
+**所有密钥走 `~/.zshrc.local`，永远不进 git**。bootstrap 后：
+
+```sh
+cp tools/zsh/config/zshrc.local.example ~/.zshrc.local
+$EDITOR ~/.zshrc.local
+```
+
+填进去：
 
 ```sh
 export OPENROUTER_API_KEY="..."
@@ -88,23 +161,36 @@ export ANTHROPIC_API_KEY="..."
 export OPENAI_API_KEY="..."
 ```
 
-`tools/zsh/config/core.zsh` 会在每次 zsh 启动时自动 source 它。
+`tools/zsh/config/core.zsh` 末尾会自动 `source ~/.zshrc.local`。配置文件中引用密钥用 `{env:NAME}` 占位（OpenCode 已是这格式）。
 
-## 更新
+---
+
+## 常见问题
+
+**Q：改了 `tools/<X>/config/` 但没生效**  
+A：symlink 没刷新，跑 `bash features/install/zsh/symlinks.zsh`。
+
+**Q：新装了一个 brew 工具但 alias 报错**  
+A：当前 shell 没 reload，`exec zsh` 或新开终端窗口。
+
+**Q：Ghostty 默认没最大化 / 字号要调**  
+A：`maximize=true` 在 macOS 上是已知 bug。我们用 `window-save-state=always`：手动 option-click 绿色按钮 zoom 一次后会被记住。字号改 `tools/ghostty/config/config` 的 `font-size`。
+
+**Q：iTerm2 当前 session 不受影响吗？**  
+A：对。Bootstrap 改的是 `~/.zshrc` 等文件 + brew 安装；运行中的 zsh 已加载到内存，**新开 tab/window 才用新配置**。Docker 容器、运行中的 Claude Code session 都不受影响。
+
+---
+
+## 完整重新部署
 
 ```sh
-cd ~/Projects/macos-dev-setup
-git pull
-# 跑各工具的 update.bash
-for u in tools/*/update.bash; do bash "$u"; done
+# 完全重置（小心，会删本地仓库）
+cd ~ && rm -rf ~/Projects/macos-dev-setup
+curl -s https://raw.githubusercontent.com/PingqiLi/macos-dev-setup/main/features/setup/setup.zsh | zsh
 ```
 
-## 自定义
-
-- **新加工具**：在 `tools/{你的工具}/` 下按现有模板建文件夹
-- **改 macOS defaults**：编辑 `tools/macos/install.bash`
-- **改 VSCode 扩展**：编辑 `tools/vscode/Brewfile`
-- **改 Claude Code 配置**：改 `tools/claude/config/settings.json` 或 `tools/claude/config/CLAUDE.md`（不是 `~/.claude/`，那是 symlink）
+设计文档：`docs/specs/`  
+实施计划：`docs/plans/`
 
 ## License
 
