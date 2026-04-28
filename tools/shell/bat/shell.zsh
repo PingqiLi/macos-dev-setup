@@ -6,7 +6,7 @@
 # ALIASES #
 ###########
 
-alias cat="bat --paging=never"
+alias cat="bat --paging=never --style=numbers,changes"
 
 ###############
 # COMPLETIONS #

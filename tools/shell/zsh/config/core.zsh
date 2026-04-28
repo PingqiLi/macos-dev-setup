@@ -57,6 +57,10 @@ fpath+=~/.zfunc
 autoload -Uz compinit && compinit
 autoload -Uz bashcompinit && bashcompinit
 
+zstyle ':completion:*' menu select                      # tab opens interactive menu
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}" # colors matching ls
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'     # case-insensitive match
+
 # Third-party core completions
 if have brew; then
   source "/opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh"

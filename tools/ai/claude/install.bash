@@ -11,3 +11,5 @@ if ! command -v npm >/dev/null 2>&1; then
 fi
 
 npm install -g @anthropic-ai/claude-code
+
+brew install terminal-notifier
