@@ -2,7 +2,7 @@
 set -euo pipefail
 
 source "${DOTFILES}/features/uninstall/utils.bash"
-source "${DOTFILES}/tools/vscode/utils.bash" # source last to avoid env var overrides
+source "${DOTFILES}/tools/apps/vscode/utils.bash" # source last to avoid env var overrides
 
 uninstall_and_unlink \
   "${TOOL_LOWER}" \

@@ -16,7 +16,7 @@ set -euo pipefail
 DOTFILES="${DOTFILES:-$HOME/Repos/ooloth/dotfiles}"
 
 # Load utilities
-source "${DOTFILES}/tools/tmux/utils.bash"
+source "${DOTFILES}/tools/multiplexer/tmux/utils.bash"
 
 main() {
     echo "✨ Updating tmux dependencies..."

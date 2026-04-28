@@ -15,7 +15,7 @@ set -euo pipefail
 DOTFILES="${DOTFILES:-$HOME/Repos/ooloth/dotfiles}"
 
 # Load utilities
-source "${DOTFILES}/tools/ssh/utils.bash"
+source "${DOTFILES}/tools/shell/ssh/utils.bash"
 
 main() {
     echo "🔑 Installing SSH key pair"

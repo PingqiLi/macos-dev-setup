@@ -17,7 +17,7 @@ DOTFILES="${DOTFILES:-$HOME/Repos/ooloth/dotfiles}"
 
 # Load utilities
 # shellcheck source=ssh/utils.bash
-source "${DOTFILES}/tools/ssh/utils.bash"
+source "${DOTFILES}/tools/shell/ssh/utils.bash"
 
 main() {
     echo "🔑 Updating SSH configuration..."

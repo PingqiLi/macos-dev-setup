@@ -2,7 +2,7 @@
 set -euo pipefail
 
 source "${DOTFILES}/tools/shell/bash/utils.bash"
-source "${DOTFILES}/tools/tmux/utils.bash"
+source "${DOTFILES}/tools/multiplexer/tmux/utils.bash"
 
 info "🪟 Updating tmux"
 brew bundle --file="${DOTFILES}/tools/tmux/Brewfile"

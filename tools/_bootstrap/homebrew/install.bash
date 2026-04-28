@@ -2,7 +2,7 @@
 set -euo pipefail
 
 source "${DOTFILES}/features/install/utils.bash"
-source "${DOTFILES}/tools/homebrew/utils.bash" # source last to avoid env var overrides
+source "${DOTFILES}/tools/_bootstrap/homebrew/utils.bash" # source last to avoid env var overrides
 
 # See: https://brew.sh
 # Run as a login shell (non-interactive) so that the script doesn't pause for user input

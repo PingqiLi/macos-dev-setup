@@ -15,7 +15,7 @@ set -euo pipefail
 DOTFILES="${DOTFILES:-$HOME/Repos/ooloth/dotfiles}"
 
 # Load utilities
-source "${DOTFILES}/tools/git/utils.bash"
+source "${DOTFILES}/tools/git/git/utils.bash"
 
 main() {
     echo "🔧 Installing Git configuration..."
@@ -29,7 +29,7 @@ main() {
 
     # Configure Git global settings
     echo "🔧 Configuring Git global settings..."
-    local git_config="${DOTFILES}/tools/git/config/config"
+    local git_config="${DOTFILES}/tools/git/git/config/config"
 
     if [[ -f "$git_config" ]]; then
         if configure_git_global "$git_config"; then
@@ -46,7 +46,7 @@ main() {
     # Configure work-specific settings if on work machine
     if [[ "${IS_WORK:-false}" == "true" ]]; then
         echo "🏢 Configuring work-specific Git settings..."
-        local work_config="${DOTFILES}/tools/git/config/config.work"
+        local work_config="${DOTFILES}/tools/git/git/config/config.work"
 
         if [[ -f "$work_config" ]]; then
             if configure_git_work "$work_config"; then

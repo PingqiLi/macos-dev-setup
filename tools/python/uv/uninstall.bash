@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-source "${DOTFILES}/tools/uv/utils.bash"
+source "${DOTFILES}/tools/python/uv/utils.bash"
 source "${DOTFILES}/features/uninstall/utils.bash"
 
 # See: https://docs.astral.sh/uv/getting-started/installation/#uninstallation

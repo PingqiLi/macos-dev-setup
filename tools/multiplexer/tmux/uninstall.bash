@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-source "${DOTFILES}/tools/tmux/utils.bash"
+source "${DOTFILES}/tools/multiplexer/tmux/utils.bash"
 source "${DOTFILES}/features/uninstall/utils.bash"
 
 uninstall_and_unlink \

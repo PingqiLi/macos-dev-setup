@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-source "${DOTFILES}/tools/uv/utils.bash"
+source "${DOTFILES}/tools/python/uv/utils.bash"
 source "${DOTFILES}/features/update/utils.bash"
 
 update_and_symlink \

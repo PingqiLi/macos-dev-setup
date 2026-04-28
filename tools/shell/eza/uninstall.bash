@@ -2,7 +2,7 @@
 set -euo pipefail
 
 source "${DOTFILES}/features/uninstall/utils.bash"
-source "${DOTFILES}/tools/eza/utils.bash" # source last to avoid env var overrides
+source "${DOTFILES}/tools/shell/eza/utils.bash" # source last to avoid env var overrides
 
 uninstall_and_unlink \
   "${TOOL_LOWER}" \

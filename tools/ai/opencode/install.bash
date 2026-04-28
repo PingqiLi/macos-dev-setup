@@ -2,7 +2,7 @@
 set -euo pipefail
 
 source "${DOTFILES}/tools/shell/bash/utils.bash"
-source "${DOTFILES}/tools/opencode/utils.bash"
+source "${DOTFILES}/tools/ai/opencode/utils.bash"
 
 info "🚂 Installing opencode"
 brew bundle --file="${DOTFILES}/tools/opencode/Brewfile"

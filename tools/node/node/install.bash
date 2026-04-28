@@ -2,7 +2,7 @@
 set -euo pipefail
 
 source "${DOTFILES}/features/install/utils.bash"
-source "${DOTFILES}/tools/node/utils.bash" # source last to avoid env var overrides
+source "${DOTFILES}/tools/node/node/utils.bash" # source last to avoid env var overrides
 
 latest_node_version="$(fnm ls-remote | tail -n 1)"
 

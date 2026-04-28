@@ -3,4 +3,4 @@ set -euo pipefail
 
 source "${DOTFILES}/tools/shell/bash/utils.bash"
 
-symlink "${DOTFILES}/tools/btop/config/btop.conf" "${HOME}/.config/btop"
+symlink "${DOTFILES}/tools/shell/btop/config/btop.conf" "${HOME}/.config/btop"
