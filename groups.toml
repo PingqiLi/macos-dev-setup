@@ -1,0 +1,49 @@
+[shell]
+description = "Shell 核心（zsh/补全/字体/CLI 增强）"
+required = true
+default = true
+
+[git]
+description = "Git 工具链（git/gh/lazygit）"
+required = true
+default = true
+
+[macos]
+description = "macOS 系统设置与工具（defaults/m-cli/Raycast）"
+required = true
+default = true
+
+[python]
+description = "Python 开发（uv）"
+required = false
+default = true
+
+[node]
+description = "Node.js 开发（fnm + pnpm）"
+required = false
+default = true
+
+[ai]
+description = "AI 编码工具（Claude Code / Codex / OpenCode / mempalace）"
+required = false
+default = true
+
+[terminal]
+description = "终端模拟器（Ghostty）"
+required = false
+default = true
+
+[multiplexer]
+description = "终端复用（tmux + gitmux）"
+required = false
+default = false
+
+[containers]
+description = "容器工具（OrbStack / lazydocker）"
+required = false
+default = false
+
+[apps]
+description = "GUI 应用（VSCode / Obsidian / Chrome / Edge）"
+required = false
+default = false
