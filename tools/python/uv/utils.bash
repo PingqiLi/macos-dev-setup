@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-source "${DOTFILES}/tools/bash/utils.bash"
+source "${DOTFILES}/tools/shell/bash/utils.bash"
 
 export TOOL_LOWER="uv"
 export TOOL_UPPER="uv"

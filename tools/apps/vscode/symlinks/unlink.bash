@@ -2,7 +2,7 @@
 set -euo pipefail
 
 source "${DOTFILES}/tools/vscode/utils.bash"
-source "${DOTFILES}/tools/bash/utils.bash"
+source "${DOTFILES}/tools/shell/bash/utils.bash"
 
 debug "🔗 Removing symlinked config files"
 

@@ -2,7 +2,7 @@
 set -euo pipefail
 
 source "${DOTFILES}/tools/node/utils.bash"
-source "${DOTFILES}/tools/bash/utils.bash"
+source "${DOTFILES}/tools/shell/bash/utils.bash"
 
 if is_work; then
   symlink "${DOTFILES}/tools/node/config/.npmrc" "${HOME}/.config/npm"

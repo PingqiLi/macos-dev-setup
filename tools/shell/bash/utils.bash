@@ -5,7 +5,7 @@ set -euo pipefail
 export DOTFILES="${HOME}/Projects/macos-dev-setup"
 
 # Include is_air, is_mini, is_work in this commonly-sourced file
-source "${DOTFILES}/tools/macos/shell.zsh"
+source "${DOTFILES}/tools/macos/macos/shell.zsh"
 
 ##############
 # INSPECTING #

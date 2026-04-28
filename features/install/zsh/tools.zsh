@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 # Run install.bash for every tool that has one.
 
-source "${DOTFILES}/tools/bash/utils.bash"
+source "${DOTFILES}/tools/shell/bash/utils.bash"
 
 info "🧩 Installing all tool modules"
 

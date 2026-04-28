@@ -5,7 +5,7 @@ set -euo pipefail
 export DOTFILES="${HOME}/Projects/macos-dev-setup"
 
 source "${DOTFILES}/features/utils.bash"
-source "${DOTFILES}/tools/bash/utils.bash"
+source "${DOTFILES}/tools/shell/bash/utils.bash"
 
 install_and_symlink() {
   local tool_lower="${1}"
