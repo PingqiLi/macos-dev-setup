@@ -21,8 +21,8 @@ Two parallel changes:
 ```
 tools/
 ├── _bootstrap/      # pre-group: always run first, not selectable
-│   ├── homebrew/
-│   └── ssh/
+│   ├── homebrew/    # hard dependency — installs the package manager
+│   └── zsh-switch/  # switch default shell to brew zsh before any tool installs
 ├── shell/           # required — always installed
 │   ├── bash/        # utility lib for scripts
 │   ├── bat/
@@ -207,18 +207,23 @@ Step 1 — Detect state
   - Which groups already have tools present? (check key binaries)
   - Existing dotfiles repo? (update vs fresh)
 
-Step 2 — Confirm scope
+Step 2 — SSH / GitHub auth (optional prompt)
+  - Ask: "Set up SSH key for GitHub? (recommended)" y/n
+  - If yes: generate key, add to agent, open browser to add public key
+  - If no: skip, user can run manually later
+
+Step 3 — Confirm scope
   - Show required groups (no prompt, always included)
   - Show optional groups with default selection
   - User toggles groups, confirms
 
-Step 3 — Execute installation
-  Order: _bootstrap (Homebrew → SSH/GitHub auth) → selected groups (shell first, then rest) → symlinks → macOS defaults
+Step 4 — Execute installation
+  Order: _bootstrap (Homebrew → zsh-switch) → [SSH if chosen] → selected groups (shell first, then rest) → symlinks → macOS defaults
   - Real-time progress per tool
   - Non-fatal errors logged, installation continues
   - Fatal errors (e.g. Homebrew install failed) halt with clear message
 
-Step 4 — Verify
+Step 5 — Verify
   - Check key binary per group (zsh, git, uv, node, claude, ghostty…)
   - Print summary table: ✅ installed / ⚠️ skipped / ❌ failed
   - Suggest next steps (reload shell, add API keys to ~/.zshrc.local)
