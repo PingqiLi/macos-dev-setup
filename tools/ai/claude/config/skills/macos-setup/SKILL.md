@@ -10,32 +10,49 @@ description: Interactively set up or update a macOS development environment from
 - User wants to add a specific tool group (e.g. "install the AI tools")
 - User says "update all my tools"
 
-## Prerequisites
-You must be running from inside the cloned macos-dev-setup repo:
+## Prerequisites — Detect repo path first
+
+**Always run this before anything else.** The repo can be cloned anywhere; never assume the path.
+
 ```sh
-ls ~/Projects/macos-dev-setup/groups.toml
+DOTFILES=$(git rev-parse --show-toplevel 2>/dev/null)
 ```
-If the file doesn't exist, clone first:
+
+If that fails (not in a git repo), ask the user where they cloned the repo:
+```sh
+# Fallback: ask user, then set manually
+# DOTFILES=/path/to/wherever/they/cloned
+```
+
+Verify it's the right repo:
+```sh
+ls "${DOTFILES}/groups.toml"
+```
+
+If `groups.toml` is missing, the user isn't inside the repo. Guide them to clone it first:
 ```sh
 git clone https://github.com/PingqiLi/macos-dev-setup ~/Projects/macos-dev-setup
 cd ~/Projects/macos-dev-setup
 ```
+Then re-detect: `DOTFILES=$(git rev-parse --show-toplevel)`
+
+**Keep `$DOTFILES` set for all subsequent steps in this session.**
 
 ## Workflow
 
 ### Step 1 — Detect System State
 
-Run and report findings:
 ```sh
+echo "Repo: ${DOTFILES}"
 echo "Architecture: $(uname -m)"
 echo "Homebrew: $(command -v brew >/dev/null && brew --version | head -1 || echo NOT INSTALLED)"
 echo ""
 echo "--- Tool groups present ---"
-command -v zsh    >/dev/null && echo "✅ shell"      || echo "❌ shell"
-command -v git    >/dev/null && echo "✅ git"        || echo "❌ git"
-command -v uv     >/dev/null && echo "✅ python"     || echo "❌ python"
-command -v node   >/dev/null && echo "✅ node"       || echo "❌ node"
-command -v claude >/dev/null && echo "✅ ai"         || echo "❌ ai"
+command -v zsh    >/dev/null && echo "✅ shell"       || echo "❌ shell"
+command -v git    >/dev/null && echo "✅ git"         || echo "❌ git"
+command -v uv     >/dev/null && echo "✅ python"      || echo "❌ python"
+command -v node   >/dev/null && echo "✅ node"        || echo "❌ node"
+command -v claude >/dev/null && echo "✅ ai"          || echo "❌ ai"
 /Applications/Ghostty.app/Contents/MacOS/ghostty --version >/dev/null 2>&1 && echo "✅ terminal" || echo "❌ terminal"
 command -v tmux   >/dev/null && echo "✅ multiplexer" || echo "— multiplexer (optional)"
 command -v docker >/dev/null && echo "✅ containers"  || echo "— containers (optional)"
@@ -61,12 +78,7 @@ ssh -T git@github.com
 ```
 Expected: `Hi username! You've successfully authenticated`
 
-If **no**: skip. User can set up SSH keys manually later:
-```sh
-ssh-keygen -t ed25519 -C "your@email.com"
-eval "$(ssh-agent -s)" && ssh-add ~/.ssh/id_ed25519
-cat ~/.ssh/id_ed25519.pub  # paste at https://github.com/settings/keys
-```
+If **no**: skip.
 
 ### Step 3 — Confirm Installation Scope
 
@@ -92,29 +104,29 @@ Ask user to confirm or change selections. Build a list of selected groups.
 
 ### Step 4 — Execute Installation
 
-Run in this exact order:
+Run in this exact order. Use `$DOTFILES` (set in Prerequisites) for all paths.
 
 **Bootstrap (always):**
 ```sh
-bash ~/Projects/macos-dev-setup/tools/_bootstrap/homebrew/install.bash
-bash ~/Projects/macos-dev-setup/tools/_bootstrap/zsh-switch/install.bash
+bash "${DOTFILES}/tools/_bootstrap/homebrew/install.bash"
+bash "${DOTFILES}/tools/_bootstrap/zsh-switch/install.bash"
 ```
 
 **Required groups:**
 ```sh
-for tool in ~/Projects/macos-dev-setup/tools/shell/*/install.bash; do bash "$tool"; done
-for tool in ~/Projects/macos-dev-setup/tools/git/*/install.bash; do bash "$tool"; done
-for tool in ~/Projects/macos-dev-setup/tools/macos/*/install.bash; do bash "$tool"; done
+for tool in "${DOTFILES}/tools/shell/"*/install.bash; do bash "$tool"; done
+for tool in "${DOTFILES}/tools/git/"*/install.bash;   do bash "$tool"; done
+for tool in "${DOTFILES}/tools/macos/"*/install.bash; do bash "$tool"; done
 ```
 
-**Each selected optional group** (substitute actual group names from Step 3):
+**Each selected optional group** (replace GROUP with actual names from Step 3):
 ```sh
-for tool in ~/Projects/macos-dev-setup/tools/{GROUP}/*/install.bash; do bash "$tool"; done
+for tool in "${DOTFILES}/tools/GROUP/"*/install.bash; do bash "$tool"; done
 ```
 
-**Symlinks and macOS defaults:**
+**Symlinks:**
 ```sh
-bash ~/Projects/macos-dev-setup/features/install/zsh/symlinks.zsh
+DOTFILES="${DOTFILES}" bash "${DOTFILES}/features/install/zsh/symlinks.zsh"
 ```
 
 For each install.bash: show progress, log errors but continue (non-fatal). Halt only if bootstrap fails.
@@ -142,7 +154,7 @@ Tell user:
 1. **Reload shell:** `exec zsh`
 2. **Add API keys** to `~/.zshrc.local`:
    ```sh
-   cp ~/Projects/macos-dev-setup/tools/shell/zsh/config/zshrc.local.example ~/.zshrc.local
+   cp "${DOTFILES}/tools/shell/zsh/config/zshrc.local.example" ~/.zshrc.local
    $EDITOR ~/.zshrc.local
    # Add: ANTHROPIC_API_KEY, OPENROUTER_API_KEY, OPENAI_API_KEY
    ```
@@ -155,8 +167,8 @@ Tell user:
 If user says "update all tools" or "upgrade everything":
 
 ```sh
-cd ~/Projects/macos-dev-setup
-for update_script in tools/*/*/update.bash; do
+DOTFILES=$(git rev-parse --show-toplevel)
+for update_script in "${DOTFILES}/tools/"*/*/update.bash; do
   [[ -f "$update_script" ]] || continue
   group=$(basename "$(dirname "$(dirname "$update_script")")")
   tool=$(basename "$(dirname "$update_script")")
