@@ -12,10 +12,10 @@
 
 **1. 新加一个工具**
 
-在 `tools/{tool}/` 下建文件夹，模板参考任一现有工具（如 `tools/orbstack/` 是个最小例子）：
+在 `tools/{group}/{tool}/` 下建文件夹，模板参考任一现有工具（如 `tools/containers/orbstack/` 是个最小例子）：
 
 ```
-tools/{tool}/
+tools/{group}/{tool}/
 ├── Brewfile             # brew/cask 条目
 ├── install.bash         # brew bundle + 可选后处理
 ├── update.bash          # brew upgrade
@@ -25,7 +25,9 @@ tools/{tool}/
 └── symlinks/link.bash   # 把 config/* 链到 TOOL_CONFIG_DIR
 ```
 
-写完之后**不需要**手动加进 setup.zsh — `features/install/zsh/tools.zsh` 会自动遍历所有 `tools/*/install.bash`，`features/install/zsh/symlinks.zsh` 会自动遍历所有 `tools/*/symlinks/link.bash`。
+Group 对应关系见 `groups.toml`（shell / git / macos / python / node / ai / terminal / multiplexer / containers / apps）。
+
+写完之后**不需要**手动加进 setup.zsh — `features/install/zsh/tools.zsh` 会自动遍历所有 `tools/*/*/install.bash`（跳过 `_bootstrap`）。
 
 **2. 改 shell 脚本**
 
@@ -40,15 +42,15 @@ shellcheck tools/{tool}/*.bash features/**/*.bash
 **3. 改 Claude Code / OpenCode 配置**
 
 改仓库副本，不要直接改 `~/.claude/` 或 `~/.config/opencode/`（那是 symlink 指向仓库）：
-- Claude：`tools/claude/config/{CLAUDE.md, settings.json}`
-- OpenCode：`tools/opencode/config/{opencode.json, oh-my-opencode.json, ...}`
+- Claude：`tools/ai/claude/config/{CLAUDE.md, settings.json}`
+- OpenCode：`tools/ai/opencode/config/{opencode.json, oh-my-opencode.json, ...}`
 
 改完 commit 即可，symlink 会自动反映。
 
 **4. 引入新的 API key / 密钥**
 
 **绝不能 commit 密钥**。一律走 `~/.zshrc.local`（gitignored）：
-- 用户复制 `tools/zsh/config/zshrc.local.example` → `~/.zshrc.local`
+- 用户复制 `tools/shell/zsh/config/zshrc.local.example` → `~/.zshrc.local`
 - 在里面 `export FOO_API_KEY=...`
 - 配置文件用 `{env:FOO_API_KEY}` 占位（OpenCode 已用此格式）
 
@@ -71,6 +73,7 @@ bash "${DOTFILES}/features/install/zsh/symlinks.zsh"
 ## 关键路径
 
 - `DOTFILES = ${HOME}/Projects/macos-dev-setup`（全部脚本基准路径）
-- 用户 zsh 入口：`~/.zshrc` → 间接 source `tools/zsh/config/core.zsh`
-- 用户 Claude 入口：`~/.claude/{CLAUDE.md, settings.json}` → symlink 到 `tools/claude/config/`
-- 用户 OpenCode 入口：`~/.config/opencode/*` → symlink 到 `tools/opencode/config/`
+- 用户 zsh 入口：`~/.zshrc` → 间接 source `tools/shell/zsh/config/core.zsh`
+- 用户 Claude 入口：`~/.claude/{CLAUDE.md, settings.json}` → symlink 到 `tools/ai/claude/config/`
+- 用户 OpenCode 入口：`~/.config/opencode/*` → symlink 到 `tools/ai/opencode/config/`
+- Setup skill：`.claude/skills/macos-setup/SKILL.md` → symlink 到 `tools/ai/claude/config/skills/macos-setup/`

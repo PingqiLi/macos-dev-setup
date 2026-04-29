@@ -16,7 +16,7 @@ xcode-select --install
 curl -s https://raw.githubusercontent.com/PingqiLi/macos-dev-setup/main/features/setup/setup.zsh | zsh
 ```
 
-setup.zsh 会询问确认后依次：装 Homebrew → 切到 brew zsh → 装 uv / Node / tmux → 跑每个 `tools/*/install.bash` → 创建符号链接 → 应用 macOS 系统设置 → 提示重启。
+setup.zsh 会询问确认后依次：装 Homebrew → 切到 brew zsh → 跑每个 `tools/*/*/install.bash` → 创建符号链接 → 应用 macOS 系统设置 → 提示重启。
 
 ---
 
@@ -26,27 +26,41 @@ setup.zsh 会询问确认后依次：装 Homebrew → 切到 brew zsh → 装 uv
 features/
 ├── setup/setup.zsh              # 一键入口
 ├── install/zsh/                 # 顺序执行的安装阶段
-│   ├── ssh.zsh / github.zsh     # SSH key + GitHub 认证
-│   ├── homebrew.zsh / zsh.zsh   # Homebrew + 切到 brew zsh
-│   ├── uv.zsh / node.zsh / npm.zsh / tmux.zsh
-│   ├── tools.zsh                # 跑所有 tools/*/install.bash
-│   ├── symlinks.zsh             # 跑所有 tools/*/symlinks/link.bash
+│   ├── tools.zsh                # 跑所有 tools/*/*/install.bash（跳过 _bootstrap）
+│   ├── symlinks.zsh             # 创建所有配置 symlinks
 │   └── macos.zsh                # 应用 macOS defaults
 
-tools/                           # 每个工具一个文件夹（自包含）
-├── {tool}/
-│   ├── Brewfile                 # brew/cask/vscode 条目
-│   ├── config/                  # 配置文件（symlink 到 ~/.config 等）
-│   ├── install.bash             # brew bundle + 后处理
-│   ├── update.bash              # brew upgrade
-│   ├── uninstall.bash           # brew uninstall
-│   ├── symlinks/link.bash       # 创建该工具的 symlinks
-│   ├── shell.zsh                # 该工具的 env vars / aliases（被 tools.zsh 自动 source）
-│   └── utils.bash               # TOOL_CONFIG_DIR 等
+tools/                           # 按 group 分层（自包含）
+├── _bootstrap/                  # 预置依赖（总是最先跑）
+│   ├── homebrew/                # 安装 Homebrew
+│   └── zsh-switch/              # 切换默认 shell 到 brew zsh
+├── shell/                       # 必装：zsh, bat, eza, fzf, vim, ...
+├── git/                         # 必装：git, gh, lazygit
+├── macos/                       # 必装：系统 defaults, m-cli, Raycast
+├── python/                      # 可选（默认开）：uv
+├── node/                        # 可选（默认开）：fnm, node, pnpm
+├── ai/                          # 可选（默认开）：claude, codex, opencode, mempalace
+├── terminal/                    # 可选（默认开）：ghostty
+├── multiplexer/                 # 可选（默认关）：tmux
+├── containers/                  # 可选（默认关）：orbstack, lazydocker
+└── apps/                        # 可选（默认关）：vscode, obsidian, browsers
+
+每个工具目录结构：
+tools/{group}/{tool}/
+├── Brewfile             # brew/cask 条目
+├── install.bash         # brew bundle + 后处理
+├── update.bash          # brew upgrade
+├── uninstall.bash       # brew uninstall（可选）
+├── utils.bash           # TOOL_CONFIG_DIR 等（如有 config）
+├── config/              # 配置文件（symlink 到 ~/.config 等）
+├── shell.zsh            # env vars / aliases（被 tools.zsh 自动 source）
+└── symlinks/link.bash   # 创建该工具的 symlinks（可选）
+
+groups.toml              # group 元数据（required/default/description）
 
 docs/
-├── specs/                       # 设计文档
-└── plans/                       # 实施计划
+├── specs/               # 设计文档
+└── plans/               # 实施计划
 ```
 
 ---
@@ -62,7 +76,7 @@ docs/
 | **Python 运行时** | uv（Python 版本 + 包 + global CLI 工具，三合一） |
 | **Node 运行时** | fnm（版本） · pnpm（包） |
 | **CLI 增强** | bat · eza · fd · ripgrep · fzf · zoxide · jq · yq · sd · btop · httpie · tree · direnv · atuin · gnu-sed · coreutils |
-| **多路复用** | tmux · sesh · gitmux |
+| **多路复用** | tmux · gitmux |
 | **macOS 工具** | m-cli · mas · Raycast |
 | **容器** | OrbStack · lazydocker |
 | **GUI 应用** | Obsidian · Chrome · Edge |
@@ -90,7 +104,7 @@ docs/
 
 global tools 装到 `~/.local/share/uv/tools/<pkg>/`，binary 链接到 `~/.local/bin/`（已在 PATH）。当前已装：mempalace、claude-monitor、basedpyright 等。
 
-要在仓库里"声明"一个 global Python 工具，参考 `tools/mempalace/`：建文件夹 + 写 `install.bash` 调 `uv tool install`。
+要在仓库里"声明"一个 global Python 工具，参考 `tools/ai/mempalace/`：建文件夹 + 写 `install.bash` 调 `uv tool install`。
 
 ### Node 由 `fnm` 管版本，`pnpm` 装包
 
@@ -108,13 +122,13 @@ pnpm install -g <pkg>          # 全局 npm CLI（如 claude-code 就是这样�
 cd ~/Projects/macos-dev-setup
 
 # 装单个工具
-bash tools/<tool>/install.bash
+bash tools/<group>/<tool>/install.bash
 
 # 升级单个工具
-bash tools/<tool>/update.bash
+bash tools/<group>/<tool>/update.bash
 
 # 升级所有
-for u in tools/*/update.bash; do bash "$u"; done
+for u in tools/*/*/update.bash; do bash "$u"; done
 ```
 
 ### 加一个新工具到仓库
@@ -122,22 +136,22 @@ for u in tools/*/update.bash; do bash "$u"; done
 最快路径：复制现有的最小工具作模板。
 
 ```sh
-cp -r tools/orbstack tools/<新工具名>
+cp -r tools/containers/orbstack tools/<group>/<新工具名>
 # 然后编辑：
-#   tools/<新工具名>/Brewfile     ← 改 cask/brew 名字
-#   tools/<新工具名>/install.bash ← 改 emoji 和 info 文案
-#   tools/<新工具名>/update.bash
-#   tools/<新工具名>/uninstall.bash
+#   tools/<group>/<新工具名>/Brewfile     ← 改 cask/brew 名字
+#   tools/<group>/<新工具名>/install.bash ← 改 emoji 和 info 文案
+#   tools/<group>/<新工具名>/update.bash
+#   tools/<group>/<新工具名>/uninstall.bash
 ```
 
 无需修改 `setup.zsh` 或别的地方 —— `features/install/zsh/tools.zsh` 会自动找到新文件夹。
 
 ### 改一个工具的配置
 
-工具的配置在 `tools/<tool>/config/`，**不要直接改 `~/.config/<tool>/`**（那是 symlink 指向仓库）。
+工具的配置在 `tools/<group>/<tool>/config/`，**不要直接改 `~/.config/<tool>/`**（那是 symlink 指向仓库）。
 
 ```sh
-$EDITOR tools/ghostty/config/config   # 改完保存
+$EDITOR tools/terminal/ghostty/config/config   # 改完保存
 # 在 Ghostty 里按 Cmd+Shift+R 重载
 git commit -am "feat(ghostty): adjust font size"
 ```
@@ -149,7 +163,7 @@ git commit -am "feat(ghostty): adjust font size"
 **所有密钥走 `~/.zshrc.local`，永远不进 git**。bootstrap 后：
 
 ```sh
-cp tools/zsh/config/zshrc.local.example ~/.zshrc.local
+cp tools/shell/zsh/config/zshrc.local.example ~/.zshrc.local
 $EDITOR ~/.zshrc.local
 ```
 
@@ -161,7 +175,7 @@ export ANTHROPIC_API_KEY="..."
 export OPENAI_API_KEY="..."
 ```
 
-`tools/zsh/config/core.zsh` 末尾会自动 `source ~/.zshrc.local`。配置文件中引用密钥用 `{env:NAME}` 占位（OpenCode 已是这格式）。
+`tools/shell/zsh/config/core.zsh` 末尾会自动 `source ~/.zshrc.local`。配置文件中引用密钥用 `{env:NAME}` 占位（OpenCode 已是这格式）。
 
 ---
 
