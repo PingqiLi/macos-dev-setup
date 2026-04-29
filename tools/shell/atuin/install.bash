@@ -2,4 +2,4 @@
 set -euo pipefail
 source "${DOTFILES}/tools/shell/bash/utils.bash"
 info "📦 Installing atuin"
-brew bundle --file="${DOTFILES}/tools/atuin/Brewfile"
+brew bundle --file="${DOTFILES}/tools/shell/atuin/Brewfile"

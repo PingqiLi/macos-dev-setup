@@ -5,7 +5,7 @@ source "${DOTFILES}/tools/shell/bash/utils.bash"
 source "${DOTFILES}/tools/multiplexer/tmux/utils.bash"
 
 info "🪟 Updating tmux"
-brew bundle --file="${DOTFILES}/tools/tmux/Brewfile"
+brew bundle --file="${DOTFILES}/tools/multiplexer/tmux/Brewfile"
 
 debug "📦 Updating tpm plugins"
 "${TPM}/clean_plugins"

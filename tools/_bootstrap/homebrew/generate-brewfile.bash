@@ -3,7 +3,7 @@ set -euo pipefail
 
 source "${DOTFILES}/tools/shell/bash/utils.bash"
 
-output="${DOTFILES}/tools/homebrew/Brewfile.generated"
+output="${DOTFILES}/tools/_bootstrap/homebrew/Brewfile.generated"
 
 mapfile -t brewfiles < <(
   find "${DOTFILES}/tools" -maxdepth 2 -name "Brewfile" \

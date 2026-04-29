@@ -5,7 +5,7 @@ source "${DOTFILES}/tools/shell/bash/utils.bash"
 source "${DOTFILES}/tools/multiplexer/tmux/utils.bash"
 
 info "🪟 Installing tmux"
-brew bundle --file="${DOTFILES}/tools/tmux/Brewfile"
+brew bundle --file="${DOTFILES}/tools/multiplexer/tmux/Brewfile"
 
 if [[ ! -d "${TPM_DIR}" ]]; then
   debug "📦 Installing tpm plugin manager"

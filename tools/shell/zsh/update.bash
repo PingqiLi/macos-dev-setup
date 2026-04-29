@@ -4,7 +4,7 @@ set -euo pipefail
 source "${DOTFILES}/tools/shell/bash/utils.bash"
 
 info "📁 Updating zsh"
-brew bundle --file="${DOTFILES}/tools/zsh/Brewfile"
+brew bundle --file="${DOTFILES}/tools/shell/zsh/Brewfile"
 
 debug "🔗 Symlinking zsh configuration"
 bash "${DOTFILES}/tools/zsh/symlinks/link.bash"

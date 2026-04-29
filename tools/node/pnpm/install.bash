@@ -2,4 +2,4 @@
 set -euo pipefail
 source "${DOTFILES}/tools/shell/bash/utils.bash"
 info "📦 Installing pnpm"
-brew bundle --file="${DOTFILES}/tools/pnpm/Brewfile"
+brew bundle --file="${DOTFILES}/tools/node/pnpm/Brewfile"
