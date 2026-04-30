@@ -9,4 +9,4 @@ brew bundle list --file="${DOTFILES}/tools/shell/zsh/Brewfile" | while IFS= read
 done
 
 debug "🔗 Unlinking zsh configuration"
-bash "${DOTFILES}/tools/zsh/symlinks/unlink.bash"
+bash "${DOTFILES}/tools/shell/zsh/symlinks/unlink.bash"

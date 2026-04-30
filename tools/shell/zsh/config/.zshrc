@@ -6,10 +6,10 @@ fi
 
 export DOTFILES="${HOME}/Projects/macos-dev-setup"
 
-source "${DOTFILES}/tools/zsh/utils.zsh" # have, is_work, info, etc
-source "${DOTFILES}/tools/zsh/config/core.zsh" # env, history, completions, aliases
-source "${DOTFILES}/tools/zsh/config/hooks.zsh" # python venv activation
-source "${DOTFILES}/tools/zsh/config/tools.zsh" # tool-specific configs via manifest
+source "${DOTFILES}/tools/shell/zsh/utils.zsh" # have, is_work, info, etc
+source "${DOTFILES}/tools/shell/zsh/config/core.zsh" # env, history, completions, aliases
+source "${DOTFILES}/tools/shell/zsh/config/hooks.zsh" # python venv activation
+source "${DOTFILES}/tools/shell/zsh/config/tools.zsh" # tool-specific configs via manifest
 
 # zoxide must be initialized AS THE VERY LAST LINE of .zshrc — that's
 # what its doctor warning insists on. (Otherwise other plugins can
