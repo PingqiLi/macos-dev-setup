@@ -20,6 +20,5 @@ alias powerlevel10k="p10k"
 # see: https://github.com/romkatv/powerlevel10k?tab=readme-ov-file#homebrew
 if have brew; then
   source "/opt/homebrew/opt/powerlevel10k/share/powerlevel10k/powerlevel10k.zsh-theme"
-  source "${DOTFILES}/tools/powerlevel10k/config/p10k.zsh" # to customize, run `p10k configure` or edit zsh/config/p10k.zsh
+  source "${DOTFILES}/tools/shell/powerlevel10k/config/p10k.zsh" # to customize, run `p10k configure` or edit zsh/config/p10k.zsh
 fi
-
