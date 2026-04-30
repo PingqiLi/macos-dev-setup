@@ -14,4 +14,4 @@ install_and_symlink \
   "${TOOL_INSTALL_COMMAND}" \
   "${TOOL_PACKAGE} --version" \
   "parse_version" \
-  "${DOTFILES}/tools/${tool_lower}/symlinks/link.bash"
+  "${DOTFILES}/tools/${TOOL_LOWER}/symlinks/link.bash"
