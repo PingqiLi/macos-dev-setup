@@ -68,6 +68,16 @@ symlink "${DOTFILES}/tools/git/lazygit/config/config.yml" "${HOMECONFIG}/lazygit
 symlink "${DOTFILES}/tools/ai/opencode/config/opencode.json"       "${HOMECONFIG}/opencode"
 symlink "${DOTFILES}/tools/ai/opencode/config/oh-my-opencode.json" "${HOMECONFIG}/opencode"
 
+# fcitx5
+mkdir -p "${HOMECONFIG}/fcitx5/conf"
+mkdir -p "${HOME}/.local/share/fcitx5/rime"
+symlink "${DOTFILES}/tools/macos/fcitx5/config/fcitx5/config"                        "${HOMECONFIG}/fcitx5"
+symlink "${DOTFILES}/tools/macos/fcitx5/config/fcitx5/profile"                       "${HOMECONFIG}/fcitx5"
+symlink "${DOTFILES}/tools/macos/fcitx5/config/fcitx5/conf/rime.conf"                "${HOMECONFIG}/fcitx5/conf"
+symlink "${DOTFILES}/tools/macos/fcitx5/config/fcitx5/conf/macosfrontend.conf"       "${HOMECONFIG}/fcitx5/conf"
+symlink "${DOTFILES}/tools/macos/fcitx5/config/fcitx5/conf/macosnotifications.conf"  "${HOMECONFIG}/fcitx5/conf"
+symlink "${DOTFILES}/tools/macos/fcitx5/config/rime/default.custom.yaml"             "${HOME}/.local/share/fcitx5/rime"
+
 # VSCode
 VSCODEUSER="${HOME}/Library/Application Support/Code/User"
 symlink "${DOTFILES}/tools/apps/vscode/config/keybindings.json" "${VSCODEUSER}"
