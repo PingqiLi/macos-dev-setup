@@ -12,5 +12,5 @@ update_and_symlink \
   "${TOOL_COMMAND} self update" \
   "${TOOL_COMMAND} --version" \
   "parse_version" \
-  "${DOTFILES}/tools/${TOOL_LOWER}/install.bash" \
-  "${DOTFILES}/tools/${TOOL_LOWER}/symlinks/link.bash"
+  "${DOTFILES}/tools/${TOOL_GROUP}/${TOOL_LOWER}/install.bash" \
+  "${DOTFILES}/tools/${TOOL_GROUP}/${TOOL_LOWER}/symlinks/link.bash"

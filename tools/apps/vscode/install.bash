@@ -8,6 +8,6 @@ info "${TOOL_EMOJI} Installing VS Code and its extensions"
 brew bundle --file="${DOTFILES}/tools/apps/vscode/Brewfile"
 
 debug "🔗 Symlinking VS Code configuration"
-bash "${DOTFILES}/tools/${TOOL_LOWER}/symlinks/link.bash"
+bash "${DOTFILES}/tools/apps/${TOOL_LOWER}/symlinks/link.bash"
 
 debug "🚀 ${TOOL_UPPER} is installed"

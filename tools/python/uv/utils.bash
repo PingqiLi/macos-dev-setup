@@ -3,6 +3,7 @@ set -euo pipefail
 
 source "${DOTFILES}/tools/shell/bash/utils.bash"
 
+export TOOL_GROUP="python"
 export TOOL_LOWER="uv"
 export TOOL_UPPER="uv"
 export TOOL_COMMAND="uv"

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+export TOOL_GROUP="multiplexer"
 export TOOL_LOWER="tmux"
 export TOOL_UPPER="Tmux"
 export TOOL_COMMAND="tmux"

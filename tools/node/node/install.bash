@@ -14,7 +14,7 @@ install_and_symlink \
   "fnm install ${latest_node_version} --corepack-enabled" \
   "${TOOL_COMMAND} --version" \
   "parse_version" \
-  "${DOTFILES}/tools/${TOOL_LOWER}/symlinks/link.bash"
+  "${DOTFILES}/tools/${TOOL_GROUP}/${TOOL_LOWER}/symlinks/link.bash"
 
 debug "🟢 Setting Node ${latest_node_version} as the default version"
 fnm default "${latest_node_version}"

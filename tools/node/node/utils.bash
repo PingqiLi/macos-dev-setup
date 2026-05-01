@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+export TOOL_GROUP="node"
 export TOOL_LOWER="node"
 export TOOL_UPPER="Node"
 export TOOL_COMMAND="node"

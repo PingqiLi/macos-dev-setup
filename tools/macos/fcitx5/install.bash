@@ -15,4 +15,3 @@ fi
 echo "⚠️  fcitx5 not found. Install manually from GitHub releases:"
 echo "   https://github.com/fcitx-contrib/fcitx5-macos/releases"
 echo "   Download the .pkg, double-click to install, then re-run this script."
-exit 1
