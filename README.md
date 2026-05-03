@@ -16,7 +16,7 @@ xcode-select --install
 curl -s https://raw.githubusercontent.com/PingqiLi/macos-dev-setup/main/features/setup/setup.zsh | zsh
 ```
 
-setup.zsh 会询问确认后依次：装 Homebrew → 切到 brew zsh → 跑每个 `tools/*/*/install.bash` → 创建符号链接 → 应用 macOS 系统设置 → 提示重启。
+setup.zsh 会询问确认后依次：装 Homebrew → 切到 brew zsh → 装 uv → 装 Node/npm → 跑每个 `tools/*/*/install.bash` → 创建符号链接 → 应用 macOS 系统设置 → 提示重启。
 
 ---
 
@@ -190,7 +190,7 @@ A：当前 shell 没 reload，`exec zsh` 或新开终端窗口。
 **Q：Ghostty 默认没最大化 / 字号要调**  
 A：`maximize=true` 在 macOS 上是已知 bug。我们用 `window-save-state=always`：手动 option-click 绿色按钮 zoom 一次后会被记住。字号改 `tools/ghostty/config/config` 的 `font-size`。
 
-**Q：iTerm2 当前 session 不受影响吗？**  
+**Q：当前 Ghostty session 不受影响吗？**  
 A：对。Bootstrap 改的是 `~/.zshrc` 等文件 + brew 安装；运行中的 zsh 已加载到内存，**新开 tab/window 才用新配置**。Docker 容器、运行中的 Claude Code session 都不受影响。
 
 ---

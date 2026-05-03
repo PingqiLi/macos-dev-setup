@@ -3,6 +3,9 @@
 # In case this file is sourced before shell variables have been symlinked
 export DOTFILES="${HOME}/Projects/macos-dev-setup"
 
+# Load helpers early so all install scripts can use info/have/return_or_exit
+source "${DOTFILES}/tools/shell/bash/utils.bash"
+
 handle_error() {
   local exit_code="$1"
   local line_number="$2"
@@ -29,10 +32,9 @@ printf "8. Configure your Mac to use the Homebrew version of Zsh\n"
 printf "9. Install uv (Python)\n"
 printf "10. Install the latest version of Node via fnm and set it as the default\n"
 printf "11. Install global npm dependencies\n"
-printf "12. Install tmux dependencies\n"
-printf "13. Install all tool modules (Brewfiles + per-tool setup)\n"
-printf "14. Symlink your dotfiles to your home and library directories\n"
-printf "15. Apply macOS system settings\n\n"
+printf "12. Install all tool modules (Brewfiles + per-tool setup)\n"
+printf "13. Symlink dotfiles to home and library directories\n"
+printf "14. Apply macOS system settings\n\n"
 
 vared -p "Sound good? (y/N) " -c key
 
@@ -103,7 +105,6 @@ source "${DOTINSTALL}/zsh.zsh"
 source "${DOTINSTALL}/uv.zsh"
 source "${DOTINSTALL}/node.zsh"
 source "${DOTINSTALL}/npm.zsh"
-source "${DOTINSTALL}/tmux.zsh"
 source "${DOTINSTALL}/tools.zsh"
 source "${DOTINSTALL}/symlinks.zsh"
 source "${DOTINSTALL}/macos.zsh"
