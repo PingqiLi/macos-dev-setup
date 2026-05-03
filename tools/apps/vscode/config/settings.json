@@ -1,6 +1,5 @@
 {
     "workbench.colorTheme": "Solarized Light",
-    "python.defaultInterpreterPath": "/Users/patrick/Projects/ray/.venv",
     "explorer.confirmDelete": false,
     "claudeCode.preferredLocation": "panel",
     "claudeCode.useTerminal": true

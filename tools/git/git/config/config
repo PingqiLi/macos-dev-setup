@@ -21,7 +21,7 @@
   pruneTags = true
 
 [github]
-	user = ooloth
+	user = PingqiLi
 
 [init]
 	defaultBranch = main
@@ -52,10 +52,10 @@
 	recurse = true
 
 [user]
-	name = Michael Uloth
-	email = hello@michaeluloth.com
+	name = YOUR_NAME
+	email = YOUR_EMAIL
 
 # Context-specific configurations (see https://stackoverflow.com/a/59184292)
-
-[includeIf "gitdir:~/Repos/recursionpharma/"]
-    path = config.work
+# Uncomment and edit to override name/email for a work directory:
+# [includeIf "gitdir:~/YOUR_WORK_DIR/"]
+#     path = config.work
