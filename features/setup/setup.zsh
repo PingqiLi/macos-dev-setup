@@ -3,9 +3,6 @@
 # In case this file is sourced before shell variables have been symlinked
 export DOTFILES="${HOME}/Projects/macos-dev-setup"
 
-# Load helpers early so all install scripts can use info/have/return_or_exit
-source "${DOTFILES}/tools/shell/bash/utils.bash"
-
 handle_error() {
   local exit_code="$1"
   local line_number="$2"
@@ -95,6 +92,9 @@ fi
 ####################
 # INSTALL + UPDATE #
 ####################
+
+# Load helpers now that the repo is on disk
+source "${DOTFILES}/tools/shell/bash/utils.bash"
 
 DOTINSTALL="${DOTFILES}/features/install/zsh"
 
