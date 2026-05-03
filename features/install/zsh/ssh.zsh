@@ -10,7 +10,7 @@
 # Exit immediately if a command exits with a non-zero status to avoid acting on bad data
 set -e
 
-DOTFILES="${HOME}/Projects/macos-dev-setup"
+DOTFILES="${DOTFILES:-${HOME}/Projects/macos-dev-setup}"
 
 
 info "🔑 Installing SSH key pair"

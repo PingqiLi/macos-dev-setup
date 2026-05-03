@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # In case this file is sourced before shell variables have been symlinked
-export DOTFILES="${HOME}/Projects/macos-dev-setup"
+export DOTFILES="${DOTFILES:-${HOME}/Projects/macos-dev-setup}"
 
 source "${DOTFILES}/features/utils.bash"
 source "${DOTFILES}/tools/shell/bash/utils.bash"

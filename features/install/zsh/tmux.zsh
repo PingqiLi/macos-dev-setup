@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 TPM="$HOME/.config/tmux/plugins/tpm"
-DOTFILES="${HOME}/Projects/macos-dev-setup"
+DOTFILES="${DOTFILES:-${HOME}/Projects/macos-dev-setup}"
 
 ###########
 # INSTALL #

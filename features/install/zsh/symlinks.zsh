@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-DOTFILES="${HOME}/Projects/macos-dev-setup"
+DOTFILES="${DOTFILES:-${HOME}/Projects/macos-dev-setup}"
 HOMECONFIG="${HOME}/.config"
 
 symlink() {

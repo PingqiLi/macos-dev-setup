@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-DOTFILES="${HOME}/Projects/macos-dev-setup"
+DOTFILES="${DOTFILES:-${HOME}/Projects/macos-dev-setup}"
 
 
 info "🦀 Installing Node via fnm"

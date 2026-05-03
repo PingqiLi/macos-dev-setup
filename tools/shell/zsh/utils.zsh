@@ -1,7 +1,15 @@
 #!/usr/bin/env zsh
 
-# In case this file is sourced before shell variables have been symlinked
-export DOTFILES="${HOME}/Projects/macos-dev-setup"
+# Resolve DOTFILES from the ~/.zshrc symlink target, falling back to
+# any value already in the environment (e.g. set by setup.zsh).
+if [[ -z "$DOTFILES" ]]; then
+  _zshrc_target="$(readlink "$HOME/.zshrc" 2>/dev/null)"
+  if [[ -n "$_zshrc_target" ]]; then
+    # ~/.zshrc -> $DOTFILES/tools/shell/zsh/config/.zshrc  (4 levels up)
+    export DOTFILES="$(cd "$(dirname "$_zshrc_target")/../../../.." && pwd)"
+  fi
+  unset _zshrc_target
+fi
 
 # Stub machine-detection helpers (we treat every machine the same — no work/personal split).
 # Kept for compatibility with any code that still calls them.
