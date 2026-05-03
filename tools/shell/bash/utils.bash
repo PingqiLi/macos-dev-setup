@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# In case this file is sourced before shell variables have been symlinked
-export DOTFILES="${HOME}/Projects/macos-dev-setup"
+# Fallback only — don't override if already set (e.g. by setup.zsh)
+export DOTFILES="${DOTFILES:-${HOME}/Projects/macos-dev-setup}"
 
 # Include is_air, is_mini, is_work in this commonly-sourced file
 source "${DOTFILES}/tools/macos/macos/shell.zsh"

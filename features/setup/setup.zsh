@@ -1,105 +1,64 @@
 #!/usr/bin/env zsh
 
-# In case this file is sourced before shell variables have been symlinked
-export DOTFILES="${HOME}/Projects/macos-dev-setup"
+# Detect repo root from this script's location
+DOTFILES="$(cd "$(dirname "$0")/../.." && pwd)"
+export DOTFILES
 
 handle_error() {
   local exit_code="$1"
   local line_number="$2"
-  printf "\nError on line $line_number: Command exited with status $exit_code.\n"
+  printf "\nError on line %s: Command exited with status %s.\n" "$line_number" "$exit_code"
   exit "$exit_code"
 }
 
-# Trap ERR signals and call handle_error()
 trap 'handle_error $? $LINENO' ERR
 
 ###########
 # CONFIRM #
 ###########
 
-printf "\nWelcome to your new Mac! This installation will perform the following steps:\n\n"
-printf "1. Confirm this is a Mac\n"
-printf "2. Ask you to enter your password\n"
-printf "3. Confirm the Command Line Developer Tools are installed\n"
-printf "4. Clone macos-dev-setup\n"
-printf "5. Create your SSH keys\n"
-printf "6. Confirm you can SSH to GitHub\n"
-printf "7. Install Homebrew\n"
-printf "8. Configure your Mac to use the Homebrew version of Zsh\n"
-printf "9. Install uv (Python)\n"
-printf "10. Install the latest version of Node via fnm and set it as the default\n"
-printf "11. Install global npm dependencies\n"
-printf "12. Install all tool modules (Brewfiles + per-tool setup)\n"
-printf "13. Symlink dotfiles to home and library directories\n"
-printf "14. Apply macOS system settings\n\n"
+printf "\nWelcome to your new Mac! This will:\n\n"
+printf "1. Install Homebrew and switch the default shell to brew zsh\n"
+printf "2. Install uv (Python), fnm + Node, global npm packages\n"
+printf "3. Install all tool modules (Brewfiles + per-tool setup)\n"
+printf "4. Symlink dotfiles to home and config directories\n"
+printf "5. Apply macOS system settings\n\n"
 
 vared -p "Sound good? (y/N) " -c key
 
 if [[ ! "$key" == 'y' ]]; then
-  printf "\nNo worries! Maybe next time."
-  printf "\nExiting..."
+  printf "\nExiting.\n"
   exit 1
-else
-  printf "\nExcellent! Here we go...\n\n"
 fi
+
+printf "\nHere we go...\n\n"
 
 #################
 # PREREQUISITES #
 #################
 
-printf "Verifying prerequisites...\n\n"
-
-printf "Confirming this is a Mac...\n"
 if [ "$(uname)" != "Darwin" ]; then
-  printf "Oops, it looks like this is a non-UNIX system. This script only works on a Mac.\n\nExiting..."
+  printf "❌ This script only works on macOS.\n"
   exit 1
 fi
-printf "This is a Mac. But you knew that already.\n\n"
 
-# Command Line Tools check (critical for git clone)
 if ! command -v git >/dev/null 2>&1; then
-  printf "❌ Git is not installed. Please install Command Line Developer Tools first.\n"
-  printf "Run: xcode-select --install\n"
+  printf "❌ Git not found. Run: xcode-select --install\n"
   exit 1
 fi
-printf "✅ Git is available for cloning dotfiles.\n\n"
 
-# You know this Mac's password
-printf "Confirming you are authorized to install things on this Mac...\n\n"
+printf "Confirming sudo access...\n"
 sudo -v
-# Keep-alive: update existing `sudo` time stamp until setup has finished
-while true; do
-  sudo -n true
-  sleep 60
-  kill -0 "$$" || exit
-done 2>/dev/null &
-printf "Yup. That's the password.\n\n"
-
-##################
-# CLONE DOTFILES #
-##################
-
-if [ -d "$DOTFILES" ]; then
-  printf "📂 Dotfiles are already installed. Pulling latest changes.\n"
-  cd "$DOTFILES"
-  git pull
-else
-  printf "📂 Installing dotfiles"
-  mkdir -p "$(dirname "$DOTFILES")"
-  GIT_TERMINAL_PROMPT=0 git clone "https://github.com/PingqiLi/macos-dev-setup.git" "$DOTFILES"
-fi
+while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 ####################
 # INSTALL + UPDATE #
 ####################
 
-# Load helpers now that the repo is on disk
 source "${DOTFILES}/tools/shell/bash/utils.bash"
 
 DOTINSTALL="${DOTFILES}/features/install/zsh"
 
-source "${DOTINSTALL}/ssh.zsh"
-source "${DOTINSTALL}/github.zsh"
 source "${DOTINSTALL}/homebrew.zsh"
 source "${DOTINSTALL}/zsh.zsh"
 source "${DOTINSTALL}/uv.zsh"
@@ -115,16 +74,13 @@ source "${DOTINSTALL}/macos.zsh"
 
 info "🎉 Setup complete!"
 
-printf "\nCongratulations! Your Mac is nearly set up.\n\n"
-printf "To apply all preferences, your computer needs to restart.\n\n"
+printf "\nTo apply all preferences, restart your computer.\n\n"
 
-vared -p "Are you ready to restart now (recommended)? (y/N) " -c restart_choice
+vared -p "Restart now? (y/N) " -c restart_choice
 
 if [[ "$restart_choice" = 'y' ]]; then
-  printf "\nExcellent choice.\n"
-  printf "\nRestarting..."
   sudo shutdown -r now
 else
-  printf "\nNo worries! Your terminal session will now refresh...\n"
+  printf "\nRefreshing shell...\n"
   exec -l "$SHELL"
 fi

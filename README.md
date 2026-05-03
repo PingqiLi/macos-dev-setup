@@ -6,17 +6,22 @@
 
 ---
 
-## 一键 bootstrap（新机器）
+## Bootstrap（新机器）
 
 ```sh
 # 1. 装 Xcode CLT（如果还没有）
 xcode-select --install
 
-# 2. 跑 setup
-curl -s https://raw.githubusercontent.com/PingqiLi/macos-dev-setup/main/features/setup/setup.zsh | zsh
+# 2. clone 仓库
+git clone https://github.com/PingqiLi/macos-dev-setup.git ~/Projects/macos-dev-setup
+
+# 3. 跑 setup
+zsh ~/Projects/macos-dev-setup/features/setup/setup.zsh
 ```
 
 setup.zsh 会询问确认后依次：装 Homebrew → 切到 brew zsh → 装 uv → 装 Node/npm → 跑每个 `tools/*/*/install.bash` → 创建符号链接 → 应用 macOS 系统设置 → 提示重启。
+
+> clone 到哪里都行，setup.zsh 会自动检测仓库位置。
 
 ---
 
