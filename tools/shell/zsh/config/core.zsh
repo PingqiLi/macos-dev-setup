@@ -82,7 +82,7 @@ alias c="clear"
 alias cte="EDITOR=nvim crontab -e"
 alias ctl="crontab -l"
 
-alias env="env | sort"
+alias envs="env | sort"
 
 killport() {
   local port="${1}"
