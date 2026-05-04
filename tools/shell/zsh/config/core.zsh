@@ -84,7 +84,7 @@ alias ctl="crontab -l"
 
 alias env="env | sort"
 
-kill() {
+killport() {
   local port="${1}"
   lsof -t -i:"${port}" | xargs kill -9;
 }
