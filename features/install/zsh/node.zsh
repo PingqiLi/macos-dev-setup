@@ -26,7 +26,7 @@ if latest_version_is_installed; then
 fi
 
 # Otherwise, install
-fnm install "$latest_version" --corepack-enabled
+fnm install "$latest_version"
 fnm default "$latest_version"
 fnm use "$latest_version"
 

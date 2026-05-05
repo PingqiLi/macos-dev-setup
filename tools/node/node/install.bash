@@ -11,7 +11,7 @@ install_and_symlink \
   "${TOOL_UPPER}" \
   "${TOOL_COMMAND}" \
   "${TOOL_EMOJI}" \
-  "fnm install ${latest_node_version} --corepack-enabled" \
+  "fnm install ${latest_node_version}" \
   "${TOOL_COMMAND} --version" \
   "parse_version" \
   "${DOTFILES}/tools/${TOOL_GROUP}/${TOOL_LOWER}/symlinks/link.bash"
