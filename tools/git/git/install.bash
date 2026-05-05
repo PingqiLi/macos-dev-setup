@@ -7,4 +7,4 @@ info "📝 Installing git"
 brew bundle --file="${DOTFILES}/tools/git/git/Brewfile"
 
 debug "🔗 Symlinking git configuration"
-bash "${DOTFILES}/tools/git/symlinks/link.bash"
+bash "${DOTFILES}/tools/git/git/symlinks/link.bash"
