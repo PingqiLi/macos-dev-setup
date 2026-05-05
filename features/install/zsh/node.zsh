@@ -5,6 +5,13 @@ DOTFILES="${DOTFILES:-${HOME}/Projects/macos-dev-setup}"
 
 info "🦀 Installing Node via fnm"
 
+if ! command -v fnm &>/dev/null; then
+  printf "\n🍺 Installing fnm via Homebrew...\n"
+  brew install fnm
+fi
+
+eval "$(fnm env)"
+
 latest_version="$(fnm ls-remote | tail -n 1)"
 installed_versions=$(fnm ls)
 
