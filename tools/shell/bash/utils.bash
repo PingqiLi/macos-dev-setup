@@ -26,8 +26,12 @@ have() {
 }
 
 is_sourced() {
-  # Returns 0 if sourced, 1 if executed
-  [[ "${BASH_SOURCE[0]}" != "$0" ]]
+  # Returns 0 if sourced, 1 if executed — works in both bash and zsh
+  if [[ -n "${ZSH_VERSION:-}" ]]; then
+    [[ "$ZSH_EVAL_CONTEXT" == *:file* ]]
+  else
+    [[ "${BASH_SOURCE[0]}" != "$0" ]]
+  fi
 }
 
 return_or_exit() {
