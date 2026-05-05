@@ -17,11 +17,16 @@ if [[ ! -x "$shell_path" ]]; then
 fi
 
 if ! grep "$shell_path" /etc/shells > /dev/null 2>&1 ; then
-  printf "\n📄 Adding '${shell_path}' to /etc/shells\n"
+  printf "\n📄 Adding '%s' to /etc/shells\n" "$shell_path"
   sudo sh -c "echo ${shell_path} >> /etc/shells"
 fi
 
-printf "\n🐚 Changing your shell to $shell_path...\n"
-sudo chsh -s "$shell_path" "$USER"
+current_shell="$(dscl . -read /Users/"$USER" UserShell 2>/dev/null | awk '{print $2}')"
+if [[ "${current_shell}" == "${shell_path}" ]]; then
+  printf "\n✅ Login shell already set to %s\n" "${shell_path}"
+else
+  printf "\n🐚 Changing your shell to %s...\n" "${shell_path}"
+  sudo chsh -s "$shell_path" "$USER"
+fi
 
 printf "\n🚀 Done configuring zsh shell.\n"
