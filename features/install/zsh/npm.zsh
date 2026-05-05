@@ -4,7 +4,15 @@ set -euo pipefail
 
 
 main() {
-  # TODO: install node via fnm if npm command is missing?
+  if ! command -v node >/dev/null 2>&1; then
+    printf "❌ Node not found. Node install step failed; cannot continue npm bootstrap.\n"
+    return_or_exit 1
+  fi
+
+  if ! command -v npm >/dev/null 2>&1; then
+    printf "❌ npm not found. Node install step failed; cannot continue npm bootstrap.\n"
+    return_or_exit 1
+  fi
 
   info "✨ Updating Node $(node -v) global dependencies"
 

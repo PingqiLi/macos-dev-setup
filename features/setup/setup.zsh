@@ -1,4 +1,5 @@
 #!/usr/bin/env zsh
+set -euo pipefail
 
 # Detect repo root from this script's location
 DOTFILES="$(cd "$(dirname "$0")/../.." && pwd)"
@@ -68,9 +69,34 @@ source "${DOTINSTALL}/tools.zsh"
 source "${DOTINSTALL}/symlinks.zsh"
 source "${DOTINSTALL}/macos.zsh"
 
+
+postflight_checks() {
+  printf "\nPostflight checks:\n"
+
+  if [[ -e "${HOME}/.zshrc" ]]; then
+    printf "✅ ~/.zshrc exists\n"
+  else
+    printf "❌ ~/.zshrc missing (symlink step may have failed)\n"
+  fi
+
+  if command -v claude >/dev/null 2>&1; then
+    printf "✅ claude is available: %s\n" "$(command -v claude)"
+  else
+    printf "❌ claude not found in PATH (npm/claude install may have failed)\n"
+  fi
+
+  if brew list --cask ghostty >/dev/null 2>&1; then
+    printf "✅ ghostty cask installed\n"
+  else
+    printf "❌ ghostty cask not installed\n"
+  fi
+}
+
 ###################
 # SUGGEST RESTART #
 ###################
+
+postflight_checks
 
 info "🎉 Setup complete!"
 
