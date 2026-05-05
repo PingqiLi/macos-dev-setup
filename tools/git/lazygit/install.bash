@@ -7,4 +7,4 @@ info "🔀 Installing lazygit"
 brew bundle --file="${DOTFILES}/tools/git/lazygit/Brewfile"
 
 debug "🔗 Symlinking lazygit configuration"
-bash "${DOTFILES}/tools/lazygit/symlinks/link.bash"
+bash "${DOTFILES}/tools/git/lazygit/symlinks/link.bash"

@@ -7,4 +7,4 @@ info "🐳 Installing lazydocker"
 brew bundle --file="${DOTFILES}/tools/containers/lazydocker/Brewfile"
 
 debug "🔗 Symlinking lazydocker configuration"
-bash "${DOTFILES}/tools/lazydocker/symlinks/link.bash"
+bash "${DOTFILES}/tools/containers/lazydocker/symlinks/link.bash"

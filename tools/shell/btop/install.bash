@@ -7,4 +7,4 @@ info "📊 Installing btop"
 brew bundle --file="${DOTFILES}/tools/shell/btop/Brewfile"
 
 debug "🔗 Symlinking btop configuration"
-bash "${DOTFILES}/tools/btop/symlinks/link.bash"
+bash "${DOTFILES}/tools/shell/btop/symlinks/link.bash"

@@ -7,4 +7,4 @@ info "🐙 Installing gh"
 brew bundle --file="${DOTFILES}/tools/git/github/Brewfile"
 
 debug "🔗 Symlinking gh configuration"
-bash "${DOTFILES}/tools/github/symlinks/link.bash"
+bash "${DOTFILES}/tools/git/github/symlinks/link.bash"
