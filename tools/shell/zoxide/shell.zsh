@@ -11,6 +11,8 @@
 # that other plugins might override its hooks.
 
 if have zoxide; then
+  export _ZO_DOCTOR=0  # suppress false-positive warning from zsh-syntax-highlighting ZLE hooks
+
   alias cd="z"
   alias h="z ${HOME}"
   alias dot="z ${DOTFILES}"
