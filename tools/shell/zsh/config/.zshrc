@@ -11,6 +11,9 @@ source "${DOTFILES}/tools/shell/zsh/config/core.zsh" # env, history, completions
 source "${DOTFILES}/tools/shell/zsh/config/hooks.zsh" # python venv activation
 source "${DOTFILES}/tools/shell/zsh/config/tools.zsh" # tool-specific configs via manifest
 
+# patch for claude code remote control
+unset DISABLE_TELEMETRY
+
 # zoxide must be initialized AS THE VERY LAST LINE of .zshrc — that's
 # what its doctor warning insists on. (Otherwise other plugins can
 # clobber its precmd / chpwd hooks.)
