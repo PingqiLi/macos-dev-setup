@@ -34,6 +34,7 @@ symlink "${DOTFILES}/tools/ai/claude/config/skills"           "${HOME}/.claude"
 
 # Shell
 symlink "${DOTFILES}/tools/shell/zsh/config/.hushlogin"  "${HOME}"
+symlink "${DOTFILES}/tools/shell/zsh/config/.zprofile"   "${HOME}"
 symlink "${DOTFILES}/tools/shell/zsh/config/.zshenv"     "${HOME}"
 symlink "${DOTFILES}/tools/shell/zsh/config/.zshrc"      "${HOME}"
 
