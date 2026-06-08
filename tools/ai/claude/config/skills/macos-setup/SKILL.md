@@ -9,6 +9,15 @@ description: Interactively set up or update a macOS development environment from
 - User says "set up my Mac", "configure my dev environment", "install dotfiles"
 - User wants to add a specific tool group (e.g. "install the AI tools")
 - User says "update all my tools"
+- User wants to sync only part of the setup, e.g. `/macos-setup shell ghostty` or "只同步 shell 和 ghostty 体验"
+
+## Pick a mode first
+
+- **Scoped sync** — the invocation names specific groups/tools (`/macos-setup shell ghostty`, `/macos-setup zsh`) OR the user asks to sync only part of the setup ("只同步 …", "just resync my terminal"). → Use **Scoped sync mode** below and SKIP the full Workflow (Steps 1–6) entirely.
+- **Update** — "update/upgrade everything". → Use **Update Mode** at the bottom.
+- **Full setup** — anything else (new Mac, "set up my environment"). → Use the **Workflow** (Steps 1–6).
+
+Always do **Prerequisites — Detect repo path** first, regardless of mode.
 
 ## Prerequisites — Detect repo path first
 
@@ -37,6 +46,100 @@ cd ~/Projects/macos-dev-setup
 Then re-detect: `DOTFILES=$(git rev-parse --show-toplevel)`
 
 **Keep `$DOTFILES` set for all subsequent steps in this session.**
+
+## Scoped sync mode
+
+Use this when the invocation names groups/tools, or the user asks to sync only part of the setup. In this mode you touch **only** the requested targets: no bootstrap, no SSH, no "always-install" required groups, and **no global symlink sweep** (`features/install/zsh/symlinks.zsh` relinks everything — do not run it here).
+
+### 1. Resolve the targets
+
+Map each argument to a path under `tools/`:
+
+- **Group name** (`shell`, `git`, `macos`, `python`, `node`, `ai`, `terminal`, `multiplexer`, `containers`, `apps`) → every tool in `tools/<group>/`.
+- **Tool name** (`ghostty`, `zsh`, `powerlevel10k`, …) → resolve with `ls -d "${DOTFILES}/tools/"*/<tool>` and use that single tool.
+- `ghostty` → `tools/terminal/ghostty`. `shell` → the whole `tools/shell/` group (zsh + fonts + powerlevel10k + bat + eza + fzf + zoxide + …). **"Full shell experience" means the entire `shell` group**, because the prompt, font, completions and aliases all come from different tools in it.
+
+Confirm the resolved list with the user before running.
+
+### 2. Pull latest
+
+The point of a sync is to match the repo's current state, so pull first:
+
+```sh
+git -C "$DOTFILES" pull --ff-only
+```
+
+If the pull fails (dirty tree or diverged), report it and ask before continuing — don't sync a stale checkout silently.
+
+### 3. Install + symlink each target
+
+Each tool's `install.bash` runs `brew bundle` (installs missing packages) and, for most tools, symlinks its own config:
+
+```sh
+for tool in <resolved install.bash paths>; do
+  echo "== $tool"
+  DOTFILES="$DOTFILES" bash "$tool" || echo "FAILED: $tool (continuing)"
+done
+```
+
+Log failures and continue; summarize them at the end.
+
+### 4. Symlink configs that install.bash doesn't link
+
+Some tools' `install.bash` only does `brew bundle` and never link their config — **ghostty is one of them**. For every resolved tool that has `symlinks/link.bash` but whose `install.bash` doesn't call it, run the link script explicitly:
+
+```sh
+DOTFILES="$DOTFILES" bash "${DOTFILES}/tools/terminal/ghostty/symlinks/link.bash"
+```
+
+(The per-tool link scripts overwrite an existing real file in place without a backup — if a target like `~/.zprofile` is currently a real file the user wants to keep, back it up first.)
+
+### 5. Upgrade caveat — casks
+
+`brew bundle` installs missing packages but does **not** upgrade ones already present. If a requested tool is a cask whose *version* matters — notably **ghostty**, whose native `cmd+f` scrollback search only exists on recent builds (older builds map `cmd+f` to the quick terminal) — upgrade it explicitly:
+
+```sh
+brew upgrade --cask ghostty
+```
+
+If the user wants full version parity across the scoped CLI tools too, offer `brew upgrade` (note: it upgrades **all** Homebrew packages, not just the scoped ones).
+
+### 6. Verify + report
+
+Per target, report what was installed/upgraded and confirm the relevant symlinks point into the repo:
+
+```sh
+readlink ~/.zprofile ~/.zshrc ~/.config/ghostty/config ~/.config/powerlevel10k/p10k.zsh
+```
+
+For ghostty also show the effective search binding:
+
+```sh
+ghostty +list-keybinds | grep -iE 'super\+f|search'
+```
+
+### 7. Next steps
+
+Tell the user to **fully restart** any affected GUI app (quit & reopen Ghostty — reload isn't enough for a version change) and run `exec zsh` to reload the shell.
+
+### Example — `/macos-setup shell ghostty` ("sync the full shell + ghostty experience")
+
+```sh
+DOTFILES=$(git -C ~/Projects/macos-dev-setup rev-parse --show-toplevel)
+git -C "$DOTFILES" pull --ff-only
+
+# whole shell group: packages + each tool's own config symlink (zsh/p10k/btop link themselves)
+for tool in "$DOTFILES"/tools/shell/*/install.bash; do
+  echo "== $tool"; DOTFILES="$DOTFILES" bash "$tool" || echo "FAILED $tool"
+done
+
+# ghostty: package, then its config symlink (install.bash does NOT link it), then upgrade
+DOTFILES="$DOTFILES" bash "$DOTFILES/tools/terminal/ghostty/install.bash"
+DOTFILES="$DOTFILES" bash "$DOTFILES/tools/terminal/ghostty/symlinks/link.bash"
+brew upgrade --cask ghostty
+```
+
+Then: quit & reopen Ghostty, run `exec zsh`. Result matches opening Ghostty on the source machine.
 
 ## Workflow
 
