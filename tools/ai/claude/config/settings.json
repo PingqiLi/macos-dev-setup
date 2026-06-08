@@ -1,6 +1,67 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
-  "model": "opusplan",
+  "permissions": {
+    "allow": [
+      "mcp__codegraph__codegraph_search",
+      "mcp__codegraph__codegraph_context",
+      "mcp__codegraph__codegraph_callers",
+      "mcp__codegraph__codegraph_callees",
+      "mcp__codegraph__codegraph_impact",
+      "mcp__codegraph__codegraph_node",
+      "mcp__codegraph__codegraph_status"
+    ],
+    "defaultMode": "default"
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash $HOME/.claude/hooks/claude-tab-title.bash"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash $HOME/.claude/hooks/claude-tab-title.bash"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '{\"suppressOutput\":true,\"hookSpecificOutput\":{\"hookEventName\":\"UserPromptSubmit\",\"additionalContext\":\"回复用户时（尤其是做总结或向用户提问时），请使用中文，语言清晰、平实，少用术语堆砌。\"}}'"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash $HOME/.claude/hooks/claude-tab-title.bash"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash $HOME/.claude/hooks/claude-tab-title.bash"
+          }
+        ]
+      }
+    ]
+  },
   "statusLine": {
     "type": "command",
     "command": "bash -c 'plugin_dir=$(ls -d \"${CLAUDE_CONFIG_DIR:-$HOME/.claude}\"/plugins/cache/claude-hud/claude-hud/*/ 2>/dev/null | awk -F/ '\"'\"'{ print $(NF-1) \"\\t\" $(0) }'\"'\"' | sort -t. -k1,1n -k2,2n -k3,3n -k4,4n | tail -1 | cut -f2-); exec \"/opt/homebrew/bin/node\" \"${plugin_dir}dist/index.js\"'"
@@ -12,7 +73,11 @@
     "ui-ux-pro-max@ui-ux-pro-max-skill": true,
     "frontend-design@claude-plugins-official": true,
     "chrome-devtools-mcp@claude-plugins-official": true,
-    "mempalace@mempalace": true
+    "mempalace@mempalace": true,
+    "clangd-lsp@claude-plugins-official": true,
+    "ralph-loop@claude-plugins-official": true,
+    "code-simplifier@claude-plugins-official": true,
+    "skill-creator@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "claude-hud": {
@@ -46,51 +111,11 @@
       }
     }
   },
-  "preferredNotifChannel": "terminal_bell",
-  "hooks": {
-    "SessionStart": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash $HOME/.claude/hooks/claude-tab-title.bash"
-          }
-        ]
-      }
-    ],
-    "UserPromptSubmit": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash $HOME/.claude/hooks/claude-tab-title.bash"
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash $HOME/.claude/hooks/claude-tab-title.bash"
-          }
-        ]
-      }
-    ],
-    "Notification": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash $HOME/.claude/hooks/claude-tab-title.bash"
-          }
-        ]
-      }
-    ]
-  },
   "alwaysThinkingEnabled": true,
   "skipDangerousModePermissionPrompt": true,
+  "editorMode": "normal",
+  "preferredNotifChannel": "terminal_bell",
+  "agentPushNotifEnabled": true,
   "feedbackSurveyState": {
     "lastShownTime": 1754017450516
   }

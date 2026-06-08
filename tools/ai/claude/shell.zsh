@@ -8,7 +8,7 @@
 # See: https://docs.anthropic.com/en/docs/about-claude/models/overview#model-names
 export ANTHROPIC_DEFAULT_OPUS_MODEL=claude-opus-4-7
 export ANTHROPIC_DEFAULT_SONNET_MODEL=claude-sonnet-4-6
-export ANTHROPIC_MODEL=opusplan
+export ANTHROPIC_MODEL='opusplan'
 export CLAUDE_CODE_DISABLE_BACKGROUND_TASKS=1
 export CLAUDE_CODE_ENABLE_TELEMETRY=0
 export DISABLE_ERROR_REPORTING=1
